@@ -1,4 +1,4 @@
-package com.example.common.com.example.common
+package com.example.common
 
 
 sealed class ResultState< out T> {
