@@ -32,7 +32,6 @@ class CityRepositoryImpl @Inject constructor(
                     // This could be a network timeout or no internet connection
                     throw CustomExceptions.TimeoutException(exception)
                 }
-
                 else -> {
                     throw CustomExceptions.UnknownException(exception)
                 }

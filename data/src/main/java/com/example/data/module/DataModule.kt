@@ -13,9 +13,8 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun provideCityRepository(weatherApiService: WeatherApiService): CityRepository
-        = CityRepositoryImpl(weatherApiService = weatherApiService)
-
+    fun provideCityRepository(weatherApiService: WeatherApiService):
+            CityRepository = CityRepositoryImpl(weatherApiService = weatherApiService)
 
 
     @Provides
@@ -23,6 +22,4 @@ object DataModule {
     fun provideGetSearchCityUsecase(repository: CityRepository): GetCityUsecase {
         return GetCityUsecase(repository)
     }
-
-
 }
