@@ -6,6 +6,7 @@ import com.example.data.BuildConfig
 import com.example.data.network.WeatherApiService
 import com.example.domain.models.City
 import com.example.domain.repository.CityRepository
+import com.example.common.HttpstatusCode
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -20,9 +21,10 @@ class CityRepositoryImpl @Inject constructor(
             when (exception) {
                 is HttpException ->
                     when (exception.code()) {
-                        404 -> throw CustomExceptions.BadRequestException(exception)
-                        401 -> throw CustomExceptions.UnauthorizedException(exception)
-                        500 -> throw CustomExceptions.ServerErrorException(exception)
+
+                        HttpstatusCode.NOT_FOUND  -> throw CustomExceptions.BadRequestException(exception)
+                        HttpstatusCode.UNAUTHORIZED -> throw CustomExceptions.UnauthorizedException(exception)
+                        HttpstatusCode.INTERNAL_SERVER_ERROR -> throw CustomExceptions.ServerErrorException(exception)
                         else -> throw CustomExceptions.UnknownNetworkException(exception)
                     }
 
