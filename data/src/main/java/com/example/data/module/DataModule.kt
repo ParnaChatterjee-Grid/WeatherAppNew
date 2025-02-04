@@ -16,7 +16,6 @@ object DataModule {
     fun provideCityRepository(weatherApiService: WeatherApiService):
             CityRepository = CityRepositoryImpl(weatherApiService = weatherApiService)
 
-
     @Provides
     @Singleton
     fun provideGetSearchCityUsecase(repository: CityRepository): GetCityUsecase {
