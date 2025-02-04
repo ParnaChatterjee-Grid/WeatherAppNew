@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -40,7 +41,11 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":presentation"))
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
