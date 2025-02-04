@@ -1,5 +1,3 @@
-
-
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
@@ -31,10 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.presentation.R
+import com.example.presentation.viewmodels.WeatherViewModel
 
 
 @Composable
-fun SearchScreen(modifier: Modifier = Modifier) {
+fun SearchScreen(
+    weatherViewModel: WeatherViewModel,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -92,7 +94,7 @@ fun SearchCity(modifier: Modifier = Modifier) {
         )
 
         OutlinedButton(
-            border = BorderStroke(3.dp,Color.Gray),
+            border = BorderStroke(3.dp, Color.Gray),
             onClick = {},
             modifier = Modifier
                 .wrapContentSize()
