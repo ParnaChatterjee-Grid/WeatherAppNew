@@ -1,6 +1,5 @@
 package com.example.weatherappCleanArchitecture.di
 
-
 import com.example.data.module.DataModule
 import com.example.data.network.Retrofit
 import com.example.weatherappCleanArchitecture.BaseApplication

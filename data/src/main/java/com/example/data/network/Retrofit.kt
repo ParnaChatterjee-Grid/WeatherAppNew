@@ -1,7 +1,6 @@
 package com.example.data.network
 
-//import com.example.data.BuildConfig
-//import com.google.android.datatransport.BuildConfig
+import com.example.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -31,7 +30,7 @@ object Retrofit {
     @Singleton
     fun providesRetrofit(httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().
-             baseUrl("http://")
+             baseUrl(BuildConfig.BASE_URL)
              .addConverterFactory(GsonConverterFactory.create())
              .client(httpClient).build()
 

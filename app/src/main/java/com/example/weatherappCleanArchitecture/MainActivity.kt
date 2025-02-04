@@ -1,6 +1,6 @@
 package com.example.weatherappCleanArchitecture
 
-import SearchScreen
+import com.example.presentation.screens.SearchScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,12 +23,10 @@ class MainActivity : ComponentActivity() {
             WeatherAppcleanArchitectureTheme {
                 val weatherViewModel: WeatherViewModel =
                     ViewModelProvider(
-                        androidx.compose.ui.platform.LocalContext.current as ComponentActivity,
+                        LocalContext.current as ComponentActivity,
                         viewModelFactoryProvider)[WeatherViewModel::class.java]
-
                 SearchScreen(weatherViewModel)
             }
-
         }
     }
 }
