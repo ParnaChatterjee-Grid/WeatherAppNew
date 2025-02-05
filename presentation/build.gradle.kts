@@ -45,19 +45,19 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.material)
-    implementation(libs.dagger)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    //dagger
     implementation(libs.dagger)
     implementation(libs.runtime.android)
     ksp(libs.dagger.compiler)
-
+    //RetroFit Setup
+    implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

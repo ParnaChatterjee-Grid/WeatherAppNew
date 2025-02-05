@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -46,14 +45,37 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 ) {
 
-    Column(Modifier.fillMaxSize(1f)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.color.white)
-        ) {
-            TopBar()
-            SearchCity(weatherViewModel, modifier)
+    var cityName by rememberSaveable { mutableStateOf("") }
+    val cityState = weatherViewModel.cityState.collectAsStateWithLifecycle()
+    remember { cityState }
+
+    Column(modifier.fillMaxSize(1f)) {
+        TopBar()
+        SearchCity(onSearchClick = {
+            cityName = it
+            weatherViewModel.getCity(cityName)
+        })
+
+        if (cityName != null && cityName.length > 0) {
+            when (val state = cityState.value) {
+                is ResultState.Loading -> {
+                    CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+                }
+
+                is ResultState.Error -> {
+                    state.exception.localizedMessage?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                }
+
+                is ResultState.Success -> {
+                    //need to implement It will call the weather screen
+                }
+            }
         }
     }
 }
@@ -78,19 +100,16 @@ fun TopBar(modifier: Modifier = Modifier) {
 
 //For searching city
 @Composable
-fun SearchCity(weatherViewModel: WeatherViewModel, modifier: Modifier = Modifier) {
-
-    Spacer(modifier.padding(top = MaterialTheme.dimens.largePadding))
+fun SearchCity(onSearchClick: (String) -> Unit, modifier: Modifier = Modifier) {
 
     var cityName by rememberSaveable { mutableStateOf("") }
-    var IsFetchedData by rememberSaveable { mutableStateOf(false) }
-    val cityState = weatherViewModel.cityState.collectAsStateWithLifecycle()
-    remember { cityState }
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     ) {
+        Spacer(Modifier.padding(top = MaterialTheme.dimens.largePadding))
         //TextField for input the cityname
         OutlinedTextField(
             value = cityName,
@@ -105,8 +124,7 @@ fun SearchCity(weatherViewModel: WeatherViewModel, modifier: Modifier = Modifier
         OutlinedButton(
             border = BorderStroke(3.dp, Color.Gray),
             onClick = {
-                weatherViewModel.getCity(cityName)
-                IsFetchedData = true
+                onSearchClick(cityName)
             },
             modifier = Modifier
                 .wrapContentSize()
@@ -120,27 +138,6 @@ fun SearchCity(weatherViewModel: WeatherViewModel, modifier: Modifier = Modifier
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize
             )
-        }
-        if (IsFetchedData) {
-            when (val state = cityState.value) {
-                is ResultState.Loading -> {
-                    CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
-                }
-
-                is ResultState.Error -> {
-                    state.exception.localizedMessage?.let {
-                        Text(
-                            text = it,
-                            color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
-                    }
-                }
-
-                is ResultState.Success -> {
-                    //It will call the weather screen
-                }
-            }
         }
     }
 }
