@@ -31,3 +31,10 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         md.required.set(true)
     }
 }
+tasks.register<Copy>("PreCommitHook") {
+    description = "Copy PreCommitHook to .git/hook"
+    group = "git hooks"
+    outputs.upToDateWhen{false}
+    from("$rootDir/scripts/pre-commit")
+    into("$rootDir/.git/hooks")
+}
