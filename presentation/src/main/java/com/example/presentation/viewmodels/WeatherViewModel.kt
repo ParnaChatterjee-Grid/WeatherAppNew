@@ -39,7 +39,6 @@ class WeatherViewModel @Inject constructor(
             } catch (ex: TimeoutException) {
                 _cityState.emit(ResultState.Error(exception = ex))
             }catch (ex: retrofit2.HttpException) {
-                Log.d("exception","Exception = "+ex)
                 _cityState.emit(ResultState.Error(exception = ex))
             }
         }
