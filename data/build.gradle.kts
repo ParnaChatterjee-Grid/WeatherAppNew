@@ -48,12 +48,12 @@ android {
 }
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     //dagger
     implementation(libs.dagger)
-    implementation(project(":common"))
     ksp(libs.dagger.compiler)
     //RetroFit Setup
     implementation(libs.retrofit)

@@ -1,6 +1,9 @@
 package com.example.data.repository
 
 
+import android.net.http.NetworkException
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import com.example.common.CustomExceptions
 import com.example.data.BuildConfig
 import com.example.data.network.WeatherApiService
@@ -14,14 +17,14 @@ import javax.inject.Inject
 class CityRepositoryImpl @Inject constructor(
     private val weatherApiService: WeatherApiService
 ) : CityRepository {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override suspend fun getSearchCity(cityName: String): City {
         return try {
             return weatherApiService.getCity(cityName, BuildConfig.API_KEY)
-        } catch (exception: Exception) {
+        } catch (exception: NetworkException) {
             when (exception) {
                 is HttpException ->
                     when (exception.code()) {
-
                         HttpstatusCode.NOT_FOUND  -> throw CustomExceptions.BadRequestException(exception)
                         HttpstatusCode.UNAUTHORIZED -> throw CustomExceptions.UnauthorizedException(exception)
                         HttpstatusCode.INTERNAL_SERVER_ERROR -> throw CustomExceptions.ServerErrorException(exception)
